@@ -1,14 +1,13 @@
-# app.py
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime
 from pathlib import Path
 
 import streamlit as st
 
 # Saját modul: a CSV beolvasó és kérdésválasztó függvények
-# (A qa_utils.py korábban megosztott, "?"-ig kérdés / utána válaszok beolvasót tartalmazza.)
 from qa_utils import beolvas_csv_dict, valassz_kerdeseket
 
 # --- Konstansok / fájlok ---
@@ -16,13 +15,48 @@ from qa_utils import beolvas_csv_dict, valassz_kerdeseket
 CSV_FAJL = Path(__file__).with_name("kerdes_valaszok.csv")
 KUSZOB = 9  # legalább 9 helyes -> SIKERES
 
+
+# --- Segédfüggvények: megjelenítés ---
+def expand_answers(ans_list: list[str]) -> list[str]:
+    """
+    Alternatívák bontása VESSZŐ (',') és PONTOSVESSZŐ (';') szerint.
+    A perjeles ('/') alak – pl. 'kék/lila' – EGY válasz marad.
+    Példa:
+      "Lugol-oldat; jód oldat" -> ["Lugol-oldat", "jód oldat"]
+      "Agaróz gél, agaróz"     -> ["Agaróz gél", "agaróz"]
+      "kék/lila"               -> ["kék/lila"]
+    """
+    out: list[str] = []
+    for a in ans_list:
+        s = (a or "").strip()
+        if not s:
+            continue
+        # Csak ',' és ';' szerint bontunk; a '/' érintetlen marad
+        parts = [p.strip() for p in re.split(r"[;,]", s) if p.strip()]
+        out.extend(parts)
+
+    # Duplikátumok kiszűrése (case-insensitive)
+    seen = set()
+    uniq = []
+    for p in out:
+        key = p.lower()
+        if key not in seen:
+            seen.add(key)
+            uniq.append(p)
+    return uniq
+
+
+def answers_bulleted_md(ans_list: list[str]) -> str:
+    """
+    Markdown bullet lista összeállítása az (csak ',' és ';' alapján szétbontott) válaszokból.
+    """
+    items = expand_answers(ans_list)
+    return "\n".join(f"- {item}" for item in items)
+
+
 # --- Streamlit alapbeállítás ---
-st.set_page_config(
-    page_title="Molsejt Minimum Vizsga Követelemény Kérdések",
-    page_icon="🔬",
-    layout="wide",
-)
-st.title("🔬 Molsejt – Kvíz (önértékelős)")
+st.set_page_config(page_title="Miolsejt Kvíz", page_icon="🔬", layout="wide")
+st.title("🔬 Molsejt Minimum Követelmény Kvíz (önértékelős)")
 
 
 # --- Adatbetöltés cache-el ---
@@ -32,7 +66,6 @@ def betolt_qa(path: str | Path):
 
 
 qa = betolt_qa(CSV_FAJL)
-
 
 # --- Session State inicializálás ---
 if "kor_kerdesei" not in st.session_state:
@@ -50,7 +83,6 @@ if "osszegzes" not in st.session_state:
 def uj_kor():
     st.session_state.kor_kerdesei = valassz_kerdeseket(qa, 12)
     st.session_state.show_answer = {k: False for k in st.session_state.kor_kerdesei}
-    # Default: None helyett rögtön "helyes"-re állíthatnánk, de a rádió default úgyis "helyes".
     st.session_state.itel = {k: None for k in st.session_state.kor_kerdesei}
     st.session_state.osszegzes = None
 
@@ -128,9 +160,8 @@ else:
         with cols[1]:
             if st.session_state.show_answer.get(kerdes, False):
                 st.success("Elfogadható válasz(ok):")
-                # Válaszok kilistázása
-                for v in qa.get(kerdes, []):
-                    st.markdown(f"- {v}")
+                # Bulletpontos megjelenítés (',', ';' mentén bontás; '/' NEM bontódik)
+                st.markdown(answers_bulleted_md(qa.get(kerdes, [])))
 
                 # Alapértelmezett önértékelés: HELYES
                 current = st.session_state.itel.get(kerdes)
@@ -171,7 +202,7 @@ else:
         sikeres = st.session_state.osszegzes["sikeres"]
         if sikeres:
             st.success(
-                f"✅ SIKERES TESZT — GRATULÁLOK! {helyes_db} / {len(st.session_state.kor_kerdesei)} "
+                f"✅ SIKERES TESZT — GRATULÁLOK ! {helyes_db} / {len(st.session_state.kor_kerdesei)} "
                 f"(küszöb: {KUSZOB})"
             )
         else:
