@@ -9,7 +9,7 @@ Nevezzen meg két prekurzor molekulát, mely DNS in vivo jelölésére alkalmas?
 Milyen típusú mikroszkóp a fáziskontraszt és a polarizációs mikroszkóp? mindkettő módosított fénymikroszkóp
 Milyen tulajdonságú anyagok vizsgálhatók polarizációs mikroszkópban? anizotróp/ kettősen törő anyagok
 Nevezzen meg 2 anizotróp struktúrát? keratin a hajban, rugalmas rostok az aortában, keményítőszemcse, Ca-oxalát kristály, amiloid szálak
-Melyik két polarizáló optikai alkatrész található meg a polarizációs mikroszkópban? polarizációs szűrők; a polarizátor és az analizátor
+Melyik két polarizáló optikai alkatrész található meg a polarizációs mikroszkópban? polarizációs szűrők; a polarizátor, analizátor
 Milyen előnyei vannak a fáziskontraszt mikroszkópiának a hagyományos fénymikroszkóppal szemben? vizsgálhatók festetlen, élő/fixálatlan sejtek
 Hogyan viszonyul egymáshoz a fáziskontraszt mikroszkóp és a hagyományos fénymikroszkóp feloldóképessége? azonosak
 Hogy nevezzük az egy síkban rezgő fényt? (síkban) polarizált fény
@@ -24,9 +24,9 @@ A gélgyöngyök mely tulajdonsága teszi lehetővé a szeparációt gélszűré
 A gyöngyök milyen tulajdonsága teszi lehetővé a szeparációt az ioncserélő kromatográfia során? Töltéssel rendelkezik
 Hogyan nevezzük azt az oldatot, amivel kimossuk a mintát a kromatográfiás oszlopon? elúciós oldat/puffer/eluálószer
 Izopiknikus grádiens centrifugálás során a szétválasztandó anyagok mely tulajdonsága alapján történik az elválasztás? sűrűség
-Mely sejteket nevezzük mononukleáris sejteknek a perifériás vérmintában? Limfociták, monociták
+Mely sejteket nevezzük mononukleáris sejteknek a perifériás vérmintában? limfociták, monociták
 A perifériás vér Ficoll médiumos sűrűséggradiens centrifugálását követően melyik rétegben találhatók a mononukleáris sejtek? Közvetlenül a Ficoll médium tetején
-A perifériás vér Ficoll médiumos sűrűséggradiens centrifugálását követően milyen sejtek találhatók a Ficoll grádiens alatt? Vörösvértestek és granulociták
+A perifériás vér Ficoll médiumos sűrűséggradiens centrifugálását követően milyen sejtek találhatók a Ficoll grádiens alatt? Vörösvértestek , granulociták
 Melyik használt reagens hatására denaturálódnak és válnak egységesen negatív töltésűekké a fehérjék a Western blot során? SDS/nátrium dodecil szulfát
 Milyen anyaggal bontják fel a diszulfidhidakat az SDS-poliakrilamid gélelektroforézis során? merkaptoetanol
 Milyen festési módszerrel tehetjük láthatóvá a fehérjéket SDS- poliakrilamid gélelektroforézis után a gélben? Coomassie kék festés
@@ -65,10 +65,8 @@ Hogyan számítható ki a fénymikroszkóp nagyítása? objektív nagyítása x 
 Milyen képet kapunk a fénymikroszkópban (3)? két fokozatban nagyított, fordított, látszólagos
 Nevezzen meg két, a mikroszkópos gyakorlatban alkalmazott fixálószert? formaldehid, glutáraldehid, ozmium-tetroxid
 Mely módszerrel tehetők specifikus módon láthatóvá a sejtben lévő fehérjék? immuncitokémia
-Nevezzen meg 2 olyan elektronmikroszkópos módszert, mely térhatású képet eredményez?
-szögárnyékolás, freeze-etching módszer, freeze-fracture módszer, scanning elektronmikroszkópia
-Nevezzen meg 2 olyan elektronmikroszkópos módszert, mellyel izolált partikulumok vizsgálhatók?
-szögárnyékolás, körárnyékolás, negatív kontrasztosítás/festés
+Nevezzen meg 2 olyan elektronmikroszkópos módszert, mely térhatású képet eredményez? szögárnyékolás, freeze-etching módszer, freeze-fracture módszer, scanning elektronmikroszkópia
+Nevezzen meg 2 olyan elektronmikroszkópos módszert, mellyel izolált partikulumok vizsgálhatók? szögárnyékolás, körárnyékolás, negatív kontrasztosítás/festés
 Milyen eljárásoknál alkalmazunk fémgőzölést az elektronmikroszkópiában, nevezzen meg kettőt? szögárnyékolás, körárnyékolás, scanning elektronmikroszkópia, replika
 Differenciál centrifugálás során milyen frakciókat kapunk és milyen sorrendben (5)? magfrakció, mitokondrium frakció, mikroszóma frakció, riboszóma frakció, citoszól
 Milyen sejtalkotókat tartalmaz a mikroszóma frakció (3)? durva felszínű endoplazmatikus retikulum, sima felszínű endoplazmatikus retikulum, Golgi- apparátus
@@ -94,9 +92,9 @@ Milyen kötés kapcsolja össze a szomszédos nukleotidokat egy nukleinsav lánc
 Mit jelent az antiparallelitás? a foszfodiészter kötések iránya ellentétes a kettős láncú nukleinsavak komplementer láncaiban
 Mit jelent a DNS olvadáspontja? az a hőmérséklet, ahol a DNS molekula fele egyes láncú, másik fele kettős láncú formában van jelen
 Mi a hiperkromicitás? denaturáció során a DNS ultraibolya abszorpciója megnő
-Melyek a purin- és pirimidinbázisok, melyik hol fordul elő? purin: A, G; pirimidin: T, U, C; DNS-ben: A, T, G, C; RNS-ben: A, U, G, C
+Melyek a purin- és pirimidinbázisok, melyik hol fordul elő? purin: A G; pirimidin: T U C; DNS-ben: A T G C; RNS-ben: A U G C
 Nevezzen meg egy anyagot, mellyel a DNS kicsapható? etanol, triklórecetsav
-Neutrális pH-n milyen töltésűek a nukleinsavak és miért? negatívak, a foszfátcsoportok miatt
+Neutrális pH-n milyen töltésűek a nukleinsavak és miért? negatívak a foszfátcsoportok miatt
 Nevezzen meg 2 anyagot, amellyel a DNS denaturálható? lúg, formamid, urea
 Nevezzen meg egy anyagot, amivel az RNS denaturálható? formaldehid
 Mi a magyarázata annak, hogy eltérő fajok DNS-ének olvadáspontja különböző? eltérő A+T/G+C arány
@@ -129,7 +127,7 @@ Hogy hívják azt a vektortípust, amely alkalmazásával a bevitt gén működi
 Nevezzen meg 3 olyan szekvenciát, mely genomtárból izolálható, de cDNS-tárból nem? promoter, szatellit-DNS, intron
 Nevezze meg a megfelelő sorrendben egy PCR-ciklus lépéseit (3)? denaturáció → primer kötődése → DNS-szintézis
 Nevezzen meg 2 módszert, amellyel egy DNS-fragmentum amplifikálható? PCR, klónozás
-Nevezze meg a polimeráz láncreakciónak azt a típusát, amelynek segítségével a reakció közben meghatározható egy nukleinsav-szekvencia mennyisége? valós-idejű (real-time) PCR
+Nevezze meg a polimeráz láncreakciónak azt a típusát amelynek segítségével a reakció közben meghatározható egy nukleinsav-szekvencia mennyisége? valós-idejű (real-time) PCR
 Mi a molekuláris hibridizáció? denaturált nukleinsav renaturációja jelölt próbával
 Nevezzen meg 2 enzimet, amelyet cDNS-tár készítésekor feltétlenül használnunk kell? reverz transzkriptáz, DNS-ligáz, restrikciós endonukleáz
 Melyik szövetspecifikus: a cDNS-tár vagy a genomtár? a cDNS-tár
@@ -137,11 +135,11 @@ Melyik szövetspecifikus: a cDNS-tár vagy a genomtár? a cDNS-tár
 Mi a neve az olyan élőlénynek, melynek genomja mesterségesen bejuttatott idegen gént tartalmaz, amit az élőlény utódai is örökölnek? transzgénikus élőlény
 Mit jelent a GMO rövidítés? genetikailag módosított organizmus
 Milyen módszerekkel lehet genetikailag módosított organizmusokat előállítani (2)? transzgén mikroinjekciója zigótába, embrionális őssejtek manipulálása
-Milyen funkciójú doméneket tartalmaznak a cink-ujj nukleázok (2)? DNS-kötő domén és endonukleáz domén
+Milyen funkciójú doméneket tartalmaznak a cink-ujj nukleázok (2)? DNS-kötő domén , endonukleáz domén
 Mi a két legfontosabb molekuláris komponense a CRISPR/Cas9 rendszernek? CRISPR RNS molekula (célzó RNS vagy guide RNS) és a Cas9 fehérje
 Mi a célzó RNS (gRNS) feladata a CRISPR/Cas9 rendszerben? a gRNS komplementer bázispárosodással kötődik a specifikus DNS szekvenciához a genomban
-Mi a Cas9 fehérje szerepe a CRISPR/Cas9 rendszerben? A Cas9 fehérje egy endonukleáz, ami elhasítja a DNS mindkét láncát
-Milyen genetikai változásokat lehet előidézni a genom egy specifikus régiójában a célzott génmanipulációra használt technikákkal (2)? gén inaktiváció (knock out mutáció) vagy gén korrekció (knock in mutáció)
+Mi a Cas9 fehérje szerepe a CRISPR/Cas9 rendszerben? A Cas9 fehérje egy endonukleáz ami elhasítja a DNS mindkét láncát
+Milyen genetikai változásokat lehet előidézni a genom egy specifikus régiójában a célzott génmanipulációra használt technikákkal (2)? gén inaktiváció (knock out mutáció) , gén korrekció (knock in mutáció)
 Mik az antisense oligonukleotidok? funkcionális RNS-sel vagy annak egy szakaszával komplementer oligonukleotidok
 Hogy nevezzük az RNS-interferencia jelenségéért felelős RNS-eket? siRNS-ek
 Mi az siRNS-ek fiziológiás funkciója? a génexpresszió szabályozása
@@ -155,17 +153,17 @@ Nevezze meg sorrendben az Illumina szekvenálás fő lépéseit (4)? könyvtár 
 Milyen különleges tulajdonságai vannak azoknak a nukleotidoknak, amiket az Illumina-módszer szekvenálási lépése során használnak (2)? a nukleotid 3’ OH csoportjához lehasítható blokkoló molekula, a bázisához egy szintén lehasítható fluoreszcens festékmolekula van kötve
 Milyen jelet detektálnak egy nukleotid beépülését követően az Illumina szekvenálás során? fluoreszcenciát
 Milyen szakkifejezés írja le az Illumina s a proton szekvenálás azon tulajdonságát, hogy igen nagyszámú DNS fragmentum egyidejű szekvencia meghatározása történik a módszerekkel? masszívan parallel
-Milyen nukleotidokat használnak a Proton szekvenálás során? jelöletlen, módosítás nélküli dNTP-ket
+Milyen nukleotidokat használnak a Proton szekvenálás során? jelöletlen módosítás nélküli dNTP-ket
 Milyen változást mutatnak ki egy nukleotid beépülését követően a Proton szekvenálás során? pH-csökkenést
 Milyen nukleinsavak vizsgálatára alkalmas a Nanopórus szekvenálás? egyesláncú DNS vagy RNS
 Milyen jelet detektálnak a Nanopórus szekvenálás során? áramerősség változást
 Mire használják a cDNS-chipeket? egy sejtben megtalálható gének expressziójának vizsgálatára
 Milyen módszerrel mutatható ki a molekuláris hibridizáció végeredménye? pl. autoradiográfiával, fluoreszcens mikroszkóppal
 Mi a fluoreszcens in situ hibridizáció (FISH) lényege? specifikus nukleinsav szekvencia lokalizálása fluoreszcensen jelölt próba hibridizációjával 
-Milyen típusai vannak a fluoreszcens in situ hibridizációnak (FISH) a sejtnek a sejtciklusban elfoglalt helyzete alapján (2)? interfázikus FISH és metafázikus FISH
+Milyen típusai vannak a fluoreszcens in situ hibridizációnak (FISH) a sejtnek a sejtciklusban elfoglalt helyzete alapján (2)? interfázikus FISH, metafázikus FISH
 Milyen információkat tudunk meg a keresett DNS szekvenciára vonatkozóan a fluoreszcens in situ hibridizáció (FISH) eredményéből (3)? jelenléte, lokalizációja, mennyisége
 Hány fluoreszcens jelet látunk egyetlen egészséges diploid sejtben elvégzett fluoreszcens in situ hibridizáció (FISH) eredményén, abban az esetben, ha egy adott autoszomális kromoszóma régióra specifikus próbát használunk? kettőt
-Írjon három példát a fluoreszcens in situ hibridizáció (FISH) alkalmazására (3)? gének lokalizációjának vizsgálata, specifikus kromoszóma régiók vizsgálata (pl. telomer, centromer), genetikai rendellenességek vizsgálata (pl. deléció, gén amplifikáció, kromoszóma transzlokáció), összes kromoszóma kimutatása
+Írjon három példát a fluoreszcens in situ hibridizáció (FISH) alkalmazására (3)? gének lokalizációjának vizsgálata, specifikus kromoszóma régiók vizsgálata (pl. telomer, centromer), genetikai rendellenességek vizsgálata (deléció gén amplifikáció kromoszóma transzlokáció), összes kromoszóma kimutatása
 Nevezze meg a sejtmag fő alkotórészeit (5)? maghártya, magplazma, kromatin, nukleolusz, magmátrix
 Mely fehérjék rögzítik a maghártya belső membránjához a kromatint? lamin fehérjék
 Elhelyezkedését tekintve hogyan osztható fel a heterokromatin (3)? marginális, nukleolusszal asszociált, diffúz heterokromatin
@@ -199,8 +197,8 @@ Mely emberi kromoszóma hordoz Alu szekvenciát? valamennyi
 Írjon egy példát retrotranszpozonra? virális retrotranszpozonok, Alu szekvencia
 Nevezze meg a sejtciklus 2 fő szakaszát? interfázis, sejtosztódás
 Nevezze meg a sejtciklus interfázisának 3 fő szakaszát? G1, S, G2 fázisok
-Mi jellemző a G1 fázisú sejt DNS-ének mennyiségére? 2n, diploid
-Mi jellemző a G2 fázisú sejt DNS-ének mennyiségére? 4n, tetraploid
+Mi jellemző a G1 fázisú sejt DNS-ének mennyiségére? 2n diploid
+Mi jellemző a G2 fázisú sejt DNS-ének mennyiségére? 4n tetraploid
 Nevezzen meg egy sejttípust, melyre a G0 fázis jellemző? neuron
 Nevezzen meg 2 folyamatot, mely az S-fázisban zajlik? DNS-polimeráz transzlokációja a sejtmagba, replikáció, hisztonok szintézise
 Hogy nevezzük azt a folyamatot, melynek során a sejtpopuláció tagjait a sejtciklus azonos fázisába hozzuk? szinkronizáció
@@ -211,7 +209,7 @@ Miből épül fel az M-fázis promóciós faktor? ciklinből és Cdk-ból (cikl
 Milyen enzimaktivitásuk van a ciklin dependens kinázoknak? szerin/treonin specifikus protein kináz
 Nevezze meg a mitózis 5 fő szakaszát? profázis, metafázis, anafázis, telofázis, citokinézis
 Nevezzen meg egy fehérjét, amit az MPF foszforilál? H1 hiszton, lamin, mikrotubulusokhoz kapcsolódó fehérjék
-Nevezze meg a mitotikus mikrotubulus-rendszer 4 fő komponensét? kinetochor, poláris, kromoszómális és asztrális mikrotubulusok
+Nevezze meg a mitotikus mikrotubulus-rendszer 4 fő komponensét? kinetochor, poláris, kromoszómális, asztrális mikrotubulusok
 Melyik mikrotubulus-típus felelős a mitózis során a kromatidák szétválasztásáért és a sejt ellentétes pólusaira mozgatásáért? kinetochor mikrotubulusok
 Melyik mikrotubulus-típus felelős a mitózis során a sejt alakjának megnyúlásáért és a pólusok egymástól való távolodásáért? poláris mikrotubulusok
 Nevezze meg a testvérkromatidokat összetartó fehérjekomplexeket? kohezin-komplexek
