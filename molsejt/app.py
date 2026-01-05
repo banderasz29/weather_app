@@ -7,50 +7,77 @@ from pathlib import Path
 
 import streamlit as st
 
-# Saját modul: a CSV beolvasó és kérdésválasztó függvények
 from qa_utils import beolvas_csv_dict, valassz_kerdeseket
 
 # --- Konstansok / fájlok ---
-# A CSV az app.py mellett legyen; így biztosan megtaláljuk
 CSV_FAJL = Path(__file__).with_name("kerdes_valaszok.csv")
 KUSZOB = 9  # legalább 9 helyes -> SIKERES
 
 
-# --- Segédfüggvények: megjelenítés ---
+# --- Válaszok bontása és megjelenítése ---
+def split_line_bullets_multiline(text: str) -> list[str]:
+    if not text.strip():
+        return []
+    if not re.search(r"(?m)^\s*-\s+", text):
+        return []
+    lines = text.splitlines()
+    answers: list[str] = []
+    current: list[str] = []
+    in_bullet = False
+    for ln in lines:
+        m = re.match(r"^\s*-\s+(.*)", ln)
+        if m:
+            if current:
+                answers.append("\n".join(current).rstrip())
+                current = []
+            in_bullet = True
+            current.append(m.group(1))
+        else:
+            if in_bullet:
+                current.append(ln.rstrip())
+    if current:
+        answers.append("\n".join(current).rstrip())
+    return [a for a in answers if a.strip()]
+
+
+def split_inline_hyphen_semicolon(text: str) -> list[str]:
+    s = (text or "").strip()
+    if not s:
+        return []
+    if re.search(r"\s-\s+", s):
+        parts = re.split(r"\s-\s+", s)
+        return [p.strip(" ;") for p in parts if p.strip(" ;")]
+    if ";" in s:
+        parts = s.split(";")
+        return [p.strip() for p in parts if p.strip()]
+    return [s]
+
+
 def expand_answers(ans_list: list[str]) -> list[str]:
-    """
-    Alternatívák bontása VESSZŐ (',') és PONTOSVESSZŐ (';') szerint.
-    A perjeles ('/') alak – pl. 'kék/lila' – EGY válasz marad.
-    Példa:
-      "Lugol-oldat; jód oldat" -> ["Lugol-oldat", "jód oldat"]
-      "Agaróz gél, agaróz"     -> ["Agaróz gél", "agaróz"]
-      "kék/lila"               -> ["kék/lila"]
-    """
     out: list[str] = []
     for a in ans_list:
-        s = (a or "").strip()
-        if not s:
+        s = a or ""
+        if not s.strip():
             continue
-        # Csak ',' és ';' szerint bontunk; a '/' érintetlen marad
-        parts = [p.strip() for p in re.split(r"[;,]", s) if p.strip()]
-        out.extend(parts)
-
-    # Duplikátumok kiszűrése (case-insensitive)
+        bullets = split_line_bullets_multiline(s)
+        if bullets:
+            out.extend(bullets)
+            continue
+        out.extend(split_inline_hyphen_semicolon(s))
+    # duplikátum-szűrés (case-insensitive)
     seen = set()
     uniq = []
     for p in out:
         key = p.lower()
-        if key not in seen:
+        if key not in seen and p.strip():
             seen.add(key)
-            uniq.append(p)
+            uniq.append(p.strip())
     return uniq
 
 
 def answers_bulleted_md(ans_list: list[str]) -> str:
-    """
-    Markdown bullet lista összeállítása az (csak ',' és ';' alapján szétbontott) válaszokból.
-    """
     items = expand_answers(ans_list)
+    # Többsoros elemeket is egyetlen bulletben hagyjuk (sortörések megmaradnak)
     return "\n".join(f"- {item}" for item in items)
 
 
@@ -69,14 +96,13 @@ qa = betolt_qa(CSV_FAJL)
 
 # --- Session State inicializálás ---
 if "kor_kerdesei" not in st.session_state:
-    st.session_state.kor_kerdesei = []  # list[str]
+    st.session_state.kor_kerdesei = []
 if "show_answer" not in st.session_state:
-    st.session_state.show_answer = {}  # dict[str, bool]
+    st.session_state.show_answer = {}
 if "itel" not in st.session_state:
-    # itel: kérdés -> "helyes" | "hibas"
-    st.session_state.itel = {}  # dict[str, str | None]
+    st.session_state.itel = {}
 if "osszegzes" not in st.session_state:
-    st.session_state.osszegzes = None  # dict | None
+    st.session_state.osszegzes = None
 
 
 # --- Callbackok ---
@@ -98,7 +124,7 @@ def mutasd_valaszt(kerdes: str):
     st.session_state.show_answer[kerdes] = True
 
 
-# --- Felső vezérlők (EGYEDI KEY-ek!) ---
+# --- Felső vezérlők ---
 c1, c2 = st.columns([1, 1])
 with c1:
     st.button(
@@ -106,14 +132,14 @@ with c1:
         type="primary",
         use_container_width=True,
         on_click=uj_kor,
-        key="btn_new_round",  # egyedi kulcs
+        key="btn_new_round",
     )
 with c2:
     st.button(
         "♻️ Teljes reset",
         use_container_width=True,
         on_click=reset_minden,
-        key="btn_full_reset",  # egyedi kulcs
+        key="btn_full_reset",
     )
 
 st.divider()
@@ -127,7 +153,7 @@ if not st.session_state.kor_kerdesei:
 else:
     st.subheader("Kérdések egy körben")
 
-    # --- Futó eredmény ---
+    # Futó eredmény
     helyes_db = sum(
         1
         for k in st.session_state.kor_kerdesei
@@ -139,11 +165,9 @@ else:
         if st.session_state.itel.get(k) in ("helyes", "hibas")
     )
     st.caption(
-        f"Önértékelt kérdések: {itelt_db} / {len(st.session_state.kor_kerdesei)} — "
-        f"Helyesnek ítélt: {helyes_db}"
+        f"Önértékelt kérdések: {itelt_db} / {len(st.session_state.kor_kerdesei)} — Helyesnek ítélt: {helyes_db}"
     )
 
-    # --- Kérdések kilistázása ---
     for i, kerdes in enumerate(st.session_state.kor_kerdesei, start=1):
         st.markdown(f"**{i}.** {kerdes}")
 
@@ -151,7 +175,7 @@ else:
         with cols[0]:
             st.button(
                 "👀 Válasz megjelenítése",
-                key=f"btn_show_{i}",  # egyedi gombkulcs kérdésenként
+                key=f"btn_show_{i}",
                 on_click=mutasd_valaszt,
                 args=(kerdes,),
                 use_container_width=True,
@@ -160,10 +184,8 @@ else:
         with cols[1]:
             if st.session_state.show_answer.get(kerdes, False):
                 st.success("Elfogadható válasz(ok):")
-                # Bulletpontos megjelenítés (',', ';' mentén bontás; '/' NEM bontódik)
                 st.markdown(answers_bulleted_md(qa.get(kerdes, [])))
 
-                # Alapértelmezett önértékelés: HELYES
                 current = st.session_state.itel.get(kerdes)
                 radio_index = 0 if (current is None or current == "helyes") else 1
 
@@ -175,7 +197,6 @@ else:
                     horizontal=True,
                 )
 
-                # Mentés: két állapot (helyes / hibas)
                 st.session_state.itel[kerdes] = (
                     "helyes" if valasztas == "Helyesnek ítélem" else "hibas"
                 )
@@ -186,7 +207,6 @@ else:
 
         st.write("---")
 
-    # --- Kiértékelés gomb (EGYEDI KEY!) ---
     if st.button("🏁 Teszt kiértékelése", type="primary", key="btn_evaluate_test"):
         helyes_db = sum(
             1
@@ -196,19 +216,16 @@ else:
         sikeres = helyes_db >= KUSZOB
         st.session_state.osszegzes = {"helyes_db": helyes_db, "sikeres": sikeres}
 
-    # --- Eredmény kijelzése + JSON export ---
     if st.session_state.osszegzes is not None:
         helyes_db = st.session_state.osszegzes["helyes_db"]
         sikeres = st.session_state.osszegzes["sikeres"]
         if sikeres:
             st.success(
-                f"✅ SIKERES TESZT — GRATULÁLOK ! {helyes_db} / {len(st.session_state.kor_kerdesei)} "
-                f"(küszöb: {KUSZOB})"
+                f"✅ SIKERES TESZT — {helyes_db} / {len(st.session_state.kor_kerdesei)} (küszöb: {KUSZOB})"
             )
         else:
             st.error(
-                f"❌ SIKERTELEN TESZT — NO PROBLEM {helyes_db} / {len(st.session_state.kor_kerdesei)} "
-                f"(legalább {KUSZOB} szükséges)"
+                f"❌ SIKERTELEN TESZT — {helyes_db} / {len(st.session_state.kor_kerdesei)} (legalább {KUSZOB} szükséges)"
             )
 
         export = {
@@ -232,5 +249,5 @@ else:
             file_name="kviz_eredmeny_onertekeles.json",
             mime="application/json",
             use_container_width=True,
-            key="btn_download_json",  # egyedi kulcs
+            key="btn_download_json",
         )
