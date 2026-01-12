@@ -10,7 +10,7 @@ from qa_utils_kemia import beolvas_csv_dict, valassz_kerdeseket
 CSV_FAJL = Path(__file__).with_name("kerdes_valaszok_kemia.csv")
 KERDES_SZAM_KOR = 10
 KUSZOB = 7
-PIC_DIR = Path("/Users/i0287148/Documents/python_test/python_test/orvosi_kemai/pic")
+PIC_DIR = Path("/Users/i0287148/Documents/python_test/python_test/orvosi_kemia/pic")
 
 
 def expand_answers(ans_list: list[str]) -> list[str]:
@@ -244,7 +244,7 @@ else:
             )
         else:
             st.error(
-                f"❌ SIKERTELEN TESZT — {helyes_db} / {len(st.session_state.kor_kerdesei)} "
+                f"❌ SIKERTELEN TESZT — NO WORRIES {helyes_db} / {len(st.session_state.kor_kerdesei)} "
                 f"(legalább {KUSZOB} szükséges)"
             )
 
