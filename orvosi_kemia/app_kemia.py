@@ -4,6 +4,7 @@ import os
 import re
 from datetime import datetime
 from pathlib import Path
+import tempfile
 
 import streamlit as st
 from qa_utils_kemia import beolvas_csv_dict, valassz_kerdeseket
@@ -12,20 +13,19 @@ from qa_utils_kemia import beolvas_csv_dict, valassz_kerdeseket
 # Stabil útvonalkezelés és fallback-ek
 APP_DIR = Path(__file__).parent
 
-# ❶ Repo/Cloud: CSV az app mappájában (EZ A LEGFONTOSABB CLOUDON)
+# ❶ Repo/Cloud: CSV az app mappájában
 CSV_REL = APP_DIR / "kerdes_valaszok_kemia.csv"
 
-# ❷ Lokális Mac abszolút útvonal (a te gépeden)
+# ❷ Lokális Mac abszolút útvonal
 CSV_ABS = Path(
     "/Users/i0287148/Documents/python_test/python_test/orvosi_kemia/kerdes_valaszok_kemia.csv"
 )
 
-# ❸ Környezeti változó: felülírja (Cloudban praktikus)
+# ❸ Környezeti változó
 CSV_ENV = os.environ.get("KEMIA_QA_CSV")
 
 
 def resolve_csv_path() -> Path:
-    """CSV helyének feloldása több jelöltből."""
     candidates: list[Path] = []
     if CSV_ENV:
         candidates.append(Path(CSV_ENV))
@@ -35,7 +35,6 @@ def resolve_csv_path() -> Path:
         p = Path(p)
         if p.exists():
             return p
-    # Ha semmi nem elérhető, térjünk vissza a relatívra; a UI majd jelez.
     return CSV_REL
 
 
@@ -92,7 +91,7 @@ def answers_bulleted_md(ans_list: list[str]) -> str:
             while idx < len(raw_lines) and not raw_lines[idx].strip():
                 idx += 1
             if idx >= len(raw_lines):
-                continue  # csak üres sorok
+                continue
             first = raw_lines[idx].strip()
             rest = "\n".join(raw_lines[idx + 1 :])
 
@@ -112,11 +111,6 @@ def extract_qnum(kerdes: str) -> str | None:
 
 
 def find_question_images(qnum: str) -> list[Path]:
-    """
-    Keresd meg a qnum-hoz tartozó képfájlokat a PIC_DIR-ben:
-      - <qnum>.png / .jpg / .jpeg
-      - <qnum>_*.png / .jpg / .jpeg (pl. 3_1.png, 3_2.jpg)
-    """
     images: list[Path] = []
     for ext in (".png", ".jpg", ".jpeg"):
         p_main = PIC_DIR / f"{qnum}{ext}"
@@ -129,19 +123,18 @@ def find_question_images(qnum: str) -> list[Path]:
 
 
 # ─────────────────────────────────────────────────────────
-# Data betöltés (cache-elve)
+# Cache-elt betöltés
 @st.cache_data(show_spinner=False)
 def betolt_qa(path: Path):
     p = Path(path)
     if not p.exists():
         raise FileNotFoundError(f"Nem található a fájl: {p.resolve()}")
-    # beolvasó str-t vár (kompatibilis az uploaded verzióddal)
     return beolvas_csv_dict(str(p))
 
 
 def run_app():
     st.set_page_config(page_title="Orvosi kémia Kvíz", page_icon="🧪", layout="wide")
-    st.title("🧪 Orvosi Kémia – Minimum Követelmény Kvíz")
+    st.title("🧪 Orvosi Kémia – Minimum Követelmény Kvíz (önértékelős)")
 
     # Sidebar — adatforrások
     st.sidebar.header("Adatforrások")
@@ -152,7 +145,7 @@ def run_app():
         f"**Kép-könyvtár**: `{PIC_DIR}` — létezik: **{Path(PIC_DIR).exists()}**"
     )
 
-    # Debug (ideiglenesen hagyd bekapcsolva, Cloud-diagnosztikához)
+    # Debug info
     with st.sidebar.expander("Debug info", expanded=False):
         st.code(
             f"""CWD: {Path.cwd()}
@@ -166,15 +159,13 @@ PIC_DIR: {PIC_DIR} (exists: {Path(PIC_DIR).exists()})
 Dir APP_DIR: {', '.join(p.name for p in APP_DIR.iterdir())}"""
         )
 
-    # CSV betöltés (feltöltés esetén az kerül használatra)
+    # CSV betöltés (feltöltés esetén a saját parserrel)
     try:
         if feltoltott is not None:
-            import pandas as pd
-
-            df = pd.read_csv(feltoltott)
-            qa = df.to_dict(
-                orient="records"
-            )  # ha a logikád dict[str, list[str]]-et vár, igazítsd
+            tmp_path = Path(tempfile.gettempdir()) / "uploaded.csv"
+            with open(tmp_path, "wb") as f:
+                f.write(feltoltott.read())
+            qa = beolvas_csv_dict(str(tmp_path))
             st.sidebar.success("Feltöltött CSV betöltve.")
         else:
             qa = betolt_qa(CSV_FAJL)
@@ -192,17 +183,16 @@ Dir APP_DIR: {', '.join(p.name for p in APP_DIR.iterdir())}"""
     # ─────────────────────────────────────────────────────
     # State kezdeti értékek
     if "kor_kerdesei" not in st.session_state:
-        st.session_state.kor_kerdesei = []  # list[str]
+        st.session_state.kor_kerdesei = []
 
     if "show_answer" not in st.session_state:
-        st.session_state.show_answer = {}  # dict[str, bool]
+        st.session_state.show_answer = {}
 
     if "itel" not in st.session_state:
-        # itel: kérdés -> "helyes" | "hibas"
-        st.session_state.itel = {}  # dict[str, str | None]
+        st.session_state.itel = {}
 
     if "osszegzes" not in st.session_state:
-        st.session_state.osszegzes = None  # dict | None
+        st.session_state.osszegzes = None
 
     # ─────────────────────────────────────────────────────
     # Műveletek
@@ -285,7 +275,6 @@ Dir APP_DIR: {', '.join(p.name for p in APP_DIR.iterdir())}"""
                 st.success("Elfogadható válasz(ok):")
                 st.markdown(answers_bulleted_md(qa.get(kerdes, [])))
 
-                # Kép(ek) a szöveges válasz ALATT
                 qnum = extract_qnum(kerdes)
                 if qnum:
                     imgs = find_question_images(qnum)
