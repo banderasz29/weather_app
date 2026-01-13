@@ -60,5 +60,5 @@ streamlit-test_pi/
 # Specific DB files
 webshop.db
 *.csv
-
+.png
 
