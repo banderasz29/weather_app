@@ -76,6 +76,7 @@ def parse_first_table(html: str) -> Tuple[List[str], List[List[str]]]:
     """
     soup = BeautifulSoup(html, "html.parser")
     table = soup.find("table")
+
     if not table:
         # FALLBACK: <tr><td> a DOM-ban (fejléc nélkül)
         rows = []
@@ -483,6 +484,7 @@ def playwright_fetch_hcp_sorted(
             user_agent=APPROVED_UA,
             ignore_https_errors=ignore_https_errors,
         )
+
         page = context.new_page()
         page.set_default_timeout(timeout_ms)
 
