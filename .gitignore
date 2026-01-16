@@ -63,3 +63,5 @@ webshop.db
 *.csv
 
 
+*.png
+*.html
