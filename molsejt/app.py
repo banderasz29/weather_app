@@ -4,20 +4,21 @@ from pathlib import Path
 import json
 import io
 import csv
+import os
 import streamlit as st
 
 # Kérdésválogatás és CSV beolvasás – győződj meg róla, hogy qa_utils.py ugyanebben a mappában van.
 from qa_utils import valassz_forras_es_kerdesek
 
 # ─────────────────────────────────────────────────────────
-# ABSZOLÚT KÖNYVTÁR A CSV-KHEZ (a te környezeted szerint)
-DATA_DIR = Path("/Users/i0287148/Documents/python_test/python_test/molsejt")
+# Mindig az app fájlja MELLŐL dolgozunk, függetlenül a CWD-től
+APP_DIR: Path = Path(__file__).parent.resolve()
 
 # Fix paraméterek
 THRESHOLD: int = 12  # ennyi kérdés generálódik minden módban
 PASS_MIN: int = 9  # legalább ennyi helyes kell a sikerhez (12-ből 9)
-FAJL_1: Path = DATA_DIR / "kerdes_valaszok.csv"  # 1. félév
-FAJL_2: Path = DATA_DIR / "kerdes_valaszok2.csv"  # 2. félév
+FAJL_1: Path = APP_DIR / "kerdes_valaszok.csv"  # 1. félév
+FAJL_2: Path = APP_DIR / "kerdes_valaszok2.csv"  # 2. félév
 SEED: Optional[int] = None  # pl. 42 a reprodukálhatósághoz, különben None
 
 st.set_page_config(
@@ -39,8 +40,16 @@ mod = st.sidebar.selectbox(
 )
 start = st.sidebar.button("🎯 Generálás / újrakeverés")
 
-# Információ – aktív könyvtár és fájlok léte
-st.sidebar.caption(f"📂 Aktív adatkönyvtár: `{DATA_DIR}`")
+# Diagnosztika – lásd, honnan fut és mit lát
+with st.sidebar.expander("Diagnosztika", expanded=False):
+    st.write(f"**CWD**: {os.getcwd()}")
+    st.write(f"**__file__**: {__file__}")
+    st.write(f"**APP_DIR**: {APP_DIR}")
+    st.write(f"**{FAJL_1.name}** exists? {FAJL_1.exists()}")
+    st.write(f"**{FAJL_2.name}** exists? {FAJL_2.exists()}")
+
+# Rövid összegzés a fájlokról
+st.sidebar.caption(f"📂 Aktív app-könyvtár: `{APP_DIR}`")
 st.sidebar.write(
     f"- 1. félév: `{FAJL_1.name}` — **{'OK' if FAJL_1.exists() else 'HIÁNYZIK'}**\n"
     f"- 2. félév: `{FAJL_2.name}` — **{'OK' if FAJL_2.exists() else 'HIÁNYZIK'}**"
@@ -73,10 +82,10 @@ def generalj() -> None:
         st.error(
             "Hiányzó CSV fájl(ok):\n\n- "
             + "\n- ".join(missing)
-            + "\n\nTedd a fájl(oka)t a megadott mappába, vagy módosítsd a kódban a DATA_DIR értékét."
+            + "\n\nTedd a fájl(oka)t az app.py mellé, vagy adj meg másik elérési utat a kódban."
         )
         st.stop()
-        return  # extra védelem, hogy ne fusson tovább
+        return  # extra védelem
 
     try:
         kerdesek, qa = valassz_forras_es_kerdesek(
@@ -87,7 +96,7 @@ def generalj() -> None:
         st.stop()
         return
     else:
-        # Csak sikeres beolvasás/mintavétel után állítsunk állapotot
+        # Csak sikeres beolvasás után állítsunk állapotot
         st.session_state.kerdesek = kerdesek
         st.session_state.qa = qa
         st.session_state.show_answer = {k: False for k in kerdesek}
