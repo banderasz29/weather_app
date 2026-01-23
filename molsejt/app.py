@@ -6,6 +6,7 @@ import io
 import csv
 import streamlit as st
 
+<<<<<<< Updated upstream
 # Kérdésválogatás/CSV beolvasás – a korábbi modulból
 from qa_utils import valassz_forras_es_kerdesek
 
@@ -19,6 +20,22 @@ PASS_MIN = 9  # legalább ennyi helyes kell a sikerhez (12-ből 9)
 FAJL_1 = DATA_DIR / "kerdes_valaszok.csv"  # 1. félév forrás
 FAJL_2 = DATA_DIR / "kerdes_valaszok2.csv"  # 2. félév forrás
 SEED: int | None = None  # pl. 42 a reprodukálhatósághoz, különben None
+=======
+# A kérdésválogatás és CSV beolvasás a korábbi modulból
+# Győződj meg róla, hogy a qa_utils.py ugyanebben a mappában van.
+from qa_utils import valassz_forras_es_kerdesek
+
+# ─────────────────────────────────────────────────────────
+# ABSZOLÚT KÖNYVTÁR A CSV-KHEZ (a te környezeted szerint)
+DATA_DIR = Path("/Users/i0287148/Documents/python_test/python_test/molsejt")
+
+# Fix paraméterek
+THRESHOLD: int = 12  # ennyi kérdés generálódik minden módban
+PASS_MIN: int = 9  # legalább ennyi helyes kell a sikerhez (12-ből 9)
+FAJL_1: Path = DATA_DIR / "kerdes_valaszok.csv"  # 1. félév
+FAJL_2: Path = DATA_DIR / "kerdes_valaszok2.csv"  # 2. félév
+SEED: Optional[int] = None  # pl. 42 a reprodukálhatósághoz, különben None
+>>>>>>> Stashed changes
 
 st.set_page_config(
     page_title="Molekuláris sejtbiológia – minimum kérdések teszt",
@@ -39,7 +56,11 @@ mod = st.sidebar.selectbox(
 )
 start = st.sidebar.button("🎯 Generálás / újrakeverés")
 
+<<<<<<< Updated upstream
 # Információs doboz – aktív elérési út és fájlok léte
+=======
+# Információ – aktív könyvtár és fájlok léte
+>>>>>>> Stashed changes
 st.sidebar.caption(f"📂 Aktív adatkönyvtár: `{DATA_DIR}`")
 st.sidebar.write(
     f"- 1. félév: `{FAJL_1.name}` — **{'OK' if FAJL_1.exists() else 'HIÁNYZIK'}**\n"
@@ -62,8 +83,13 @@ if "osszegzes" not in st.session_state:
 
 # ─────────────────────────────────────────────────────────
 # Generálás
+<<<<<<< Updated upstream
 def generalj():
     # Előzetes ellenőrzés, hogy egyértelmű hibát tudjunk jelezni
+=======
+def generalj() -> None:
+    # Előzetes ellenőrzés – egyértelmű üzenet a hiányzó fájlokra
+>>>>>>> Stashed changes
     missing = []
     if mod in ("1", "szigorlat") and not FAJL_1.exists():
         missing.append(str(FAJL_1))
@@ -99,7 +125,7 @@ if start or not st.session_state.kerdesek:
 # Fejléc és státusz
 st.title("🧬 Molekuláris sejtbiológia – minimum kérdések teszt")
 st.caption(
-    f"Egyszerre látszik minden kérdés. Mód: **{ {'1':'1. félév','2':'2. félév','szigorlat':'3. szigorlat (50–50%)'}[mod] }** • "
+    f"Egyszerre látszik minden kérdés. Mód: **{{'1':'1. félév','2':'2. félév','szigorlat':'3. szigorlat (50–50%)'}}[mod]** • "
     f"Kérdések száma: **{THRESHOLD}** • Sikeresség feltétele: **legalább {PASS_MIN} helyes**."
 )
 
@@ -129,7 +155,7 @@ st.divider()
 
 
 # ─────────────────────────────────────────────────────────
-# Segédfüggvény a válaszok szépen formázott megjelenítéséhez
+# Válaszok formázott megjelenítése
 def show_answers_markdown(ans_list: List[str]) -> None:
     if not ans_list:
         st.caption("(Nincs válasz rögzítve)")
@@ -144,7 +170,7 @@ def show_answers_markdown(ans_list: List[str]) -> None:
 
 
 # ─────────────────────────────────────────────────────────
-# Minden kérdés blokkban – „Válasz megjelenítése” + önértékelés
+# Kérdésblokkok – „Válasz megjelenítése” + önértékelés
 for sorszam, k in enumerate(kerdesek, start=1):
     bg = (
         "#eaffea"
@@ -193,8 +219,8 @@ for sorszam, k in enumerate(kerdesek, start=1):
 
 
 # ─────────────────────────────────────────────────────────
-# Kiértékelés (12-ből legalább 9-nek kell helyesnek lennie)
-def kiertet():
+# Kiértékelés (12-ből legalább 9 helyes)
+def kiertet() -> None:
     helyes = sum(1 for k in kerdesek if itel.get(k) == "helyes")
     sikeres = helyes >= PASS_MIN
     st.session_state.osszegzes = {"helyes_db": helyes, "sikeres": sikeres}
