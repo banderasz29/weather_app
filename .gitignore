@@ -59,10 +59,8 @@ streamlit-test_pi/
 
 # Specific DB files
 webshop.db
-<<<<<<< Updated upstream
-*.csv
 
-
+# Biofizika specific
 *.png
 *.html
 *.ttf
