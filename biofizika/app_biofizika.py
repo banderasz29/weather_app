@@ -684,7 +684,7 @@ if st.button("🖨️ PDF generálása (ÖSSZES TÉMA)"):
         use_container_width=True,
     )
 
-# JSON export – ha volt összesítés
+# JSON export ha volt összesítés
 if st.session_state.summary:
     s = st.session_state.summary
     st.info(
